@@ -4,7 +4,7 @@ import { menu_list } from '../../assets/assets'
 
 const ExploreMenu = ({ category, setCategory }) => {
     return (
-        <div className='mx-5' id='explore-menu'>
+        <div className='mx-5 pt-36 ' id='explore-menu'>
             <h1 className='text-4xl font-semibold mb-4'>Explore our menu</h1>
             <p className='w-3/4 '>Choose from a diverse menu featuring a detectable array of dishes. Our mission is to satisfy your cravings and elevate your dining experience, one delicious meal at a time. </p>
             <div className='flex flex-nowrap justify-between items-center overflow-x-auto scrollbar-hide gap-9 mt-3  '>

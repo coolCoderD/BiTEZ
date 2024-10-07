@@ -5,7 +5,7 @@ import { assets } from '../../assets/assets'
 import { useNavigate } from 'react-router-dom'
 
 const Cart = () => {
-  const {cartItems,food_list,removeFromCart,getTotalPrice}=useContext(StoreContext);
+  const {cartItems,food_list,removeFromCart,getTotalPrice,url}=useContext(StoreContext);
   const  navigate=useNavigate();
   function isEmpty(obj) {
     return Object.keys(obj).length === 0;
@@ -14,7 +14,7 @@ const Cart = () => {
   
 
   const cartDetails={
-      "Subtotal":getTotalPrice()*10,"Delivery Fee":200,"Total":getTotalPrice()*10+200
+      "Subtotal":getTotalPrice(),"Delivery Fee":200,"Total":getTotalPrice()+200
   }
   return (
     <>{
@@ -36,11 +36,11 @@ const Cart = () => {
             return (
               <>
               <div className='grid grid-cols-7 gap-4 p-4 '>
-                <img className='w-[70px] ' src={item.image} alt="" />
+                <img className='w-[70px] ' src={url+"/images/"+item.image} alt="" />
                 <p className='md:col-span-2'>{item.name}</p>
                 <p>{item.price*10}</p>
                 <p className='hidden md:block'>{cartItems[item._id]}</p>
-                <p>{item.price*cartItems[item._id]*10}</p>
+                <p>{item.price*cartItems[item._id]}</p>
                 <p className='cursor-pointer' onClick={()=>removeFromCart(item._id)}><img src={assets.cross_icon} alt="" /></p>
               </div>
               <hr className='bg-gray-900 w-full h-full ' />

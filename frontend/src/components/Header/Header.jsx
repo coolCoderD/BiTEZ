@@ -6,7 +6,7 @@ import { assets } from '../../assets/assets';
 const Header = () => {
   return (
 
-    <div className="text-gray-600 body-font mt-[-90px]">
+    <div className="text-gray-600 body-font mt-[-90px]" id='header'>
       <div className="container px-5 py-24 flex flex-wrap">
         <div class="flex flex-wrap md:-m-2 -m-1">
 	  <div className="flex flex-wrap w-1/2">

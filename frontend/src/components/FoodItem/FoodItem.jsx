@@ -5,17 +5,17 @@ import { StoreContext } from '../../context/StoreContext';
 const FoodItem = ({id,name,price,description,image}) => {
   console.log(id);
 
-  const{cartItems,addToCart,removeFromCart,showEmpty}=useContext(StoreContext);
+  const{cartItems,addToCart,removeFromCart,showEmpty,url}=useContext(StoreContext);
   function addAndShow(id){
     addToCart(id);
     showEmpty(false);
   }
   return (
-    <div className='rounded-md p-3 relative shadow-lg animate-fade-up animate-once animate-ease-in-out '>
-        <img  className='rounded-t-3xl ' src={image} alt="" />
+    <div className='rounded-md p-3  relative shadow-lg animate-fade-up animate-once animate-ease-in-out '>
+        <img  className='rounded-t-3xl ' src={url+"/images/"+image} alt="" />
         {
           !cartItems[id]? <img className='absolute top-4 w-10 ml-2' src={assets.add_icon_white} onClick={()=>addToCart(id)} /> :
-          <div className='absolute top-5 ml-2  flex items-center bg-slate-100 rounded-full px-1 py-1' >
+          <div className='absolute top-5 ml-2  flex items-center bg-white rounded-full px-1 py-1' >
             <img className='w-6' src={assets.remove_icon_red} onClick={()=>removeFromCart(id)} />
             <p className='mx-2'>{cartItems[id]}</p>
             <img className='w-6' src={assets.add_icon_green} onClick={()=>addToCart(id)} />
@@ -26,7 +26,7 @@ const FoodItem = ({id,name,price,description,image}) => {
                 <p className='text-xl font-semibold'>{name}</p>
             </div>
             <p className='text-gray-500'>{description}</p>
-            <p className='text-xl font-semibold text-[tomato] mt-3'>₹{price*10}</p>
+            <p className='text-xl font-semibold text-[tomato] mt-3'>₹{price}</p>
         </div>
     </div>
   )

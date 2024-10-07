@@ -2,9 +2,9 @@ import React, { useContext } from 'react'
 import { StoreContext } from '../../context/StoreContext'
 
 const PlaceOrder = () => {
-  const {getTotalPrice}=useContext(StoreContext);
+  const {getTotalPrice,token,food_list,cartItems,url}=useContext(StoreContext);
   const cartDetails={
-    "Subtotal":getTotalPrice()*10,"Delivery Fee":200,"Total":getTotalPrice()*10+200
+    "Subtotal":getTotalPrice(),"Delivery Fee":200,"Total":getTotalPrice()+200
 }
   
   return (
