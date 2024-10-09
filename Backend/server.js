@@ -6,6 +6,7 @@ import userRouter from "./routes/userRoutes.js";
 import cartRouter from "./routes/cartRoutes.js";
 import 'dotenv/config';
 import orderRouter from "./routes/orderRoutes.js";
+import profileRouter from "./routes/profileRoute.js";
 
 const app = express();
 const port = 4000;
@@ -17,9 +18,9 @@ const corsOptions = {
     allowedHeaders: ['Authorization', 'Origin', 'X-Requested-With', 'Content-Type', 'Accept','token']
 };
 
-app.use(cors(corsOptions));  // Apply CORS with options
+app.use(cors(corsOptions));  
 
-// Middleware to parse JSON request body
+
 app.use(express.json());
 
 // db connection
@@ -31,6 +32,7 @@ app.use("/images", express.static('uploads'));  // For serving static files (lik
 app.use("/api/user", userRouter);
 app.use("/api/cart", cartRouter);
 app.use("api/order",orderRouter)
+app.use("/api/profile",profileRouter);
 
 app.get('/', (req, res) => {
     res.send("Hello from server");

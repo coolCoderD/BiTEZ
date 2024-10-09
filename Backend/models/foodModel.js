@@ -19,8 +19,8 @@ const foodSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true
-    }
+        default:""
+    },
 });
 
 const foodModel = mongoose.models.food ||  mongoose.model("food", foodSchema);

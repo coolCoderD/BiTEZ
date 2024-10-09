@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
         type: Object,
         default: {}
     },
+    likedFoods:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "food",
+        default:[]
+    }]
     
 }, {
     minimize: false, // Corrected the syntax here
