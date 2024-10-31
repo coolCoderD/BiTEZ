@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema({
     likedFoods:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: "food",
-        default:[]
     }]
     
 }, {

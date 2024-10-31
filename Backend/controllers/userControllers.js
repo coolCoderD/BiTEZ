@@ -70,4 +70,16 @@ const registerUser = async (req, res) => {
     }
 };
 
-export { loginUser, registerUser };
+const getUser= async (req,res)=>{
+    try {
+        let userData = await userModel.findOne({_id:req.body.userId});
+        res.json({success:true,userData})
+        
+    } catch (error) {
+        console.log(error)
+        res.json({success:false,message:"Error"})
+        
+    }
+    
+    }
+export { loginUser, registerUser,getUser };

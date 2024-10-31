@@ -21,6 +21,10 @@ const foodSchema = new mongoose.Schema({
         type: String,
         default:""
     },
+    publicId:{
+        type: String,
+        
+    }
 });
 
 const foodModel = mongoose.models.food ||  mongoose.model("food", foodSchema);
