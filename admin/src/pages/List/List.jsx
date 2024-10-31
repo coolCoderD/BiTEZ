@@ -56,7 +56,7 @@ const List = () => {
             {list.map((item, idx) => (
               <tr key={idx} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  <img src={`http://localhost:4000/images/${item.image}`} alt={item.name} className="h-12 w-12 object-cover" />
+                  <img src={item.image} alt={item.name} className="h-12 w-12 object-cover" />
                 </th>
                 <td className="px-6 py-4">{item.name}</td>
                 <td className="px-6 py-4">{item.price}</td>

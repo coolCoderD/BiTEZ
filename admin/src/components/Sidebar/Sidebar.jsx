@@ -24,11 +24,11 @@ export default function VerticalTabsWithIcon() {
       value: "/list",
       icon: ListBulletIcon,
     },
-    {
-      label: "Orders",
-      value: "/orders",
-      icon: ListBulletIcon,
-    },
+    // {
+    //   label: "Orders",
+    //   value: "/orders",
+    //   icon: ListBulletIcon,
+    // },
   ];
 
   return (

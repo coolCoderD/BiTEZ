@@ -9,7 +9,6 @@ import {
   Textarea
 } from "@material-tailwind/react";
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/24/solid';
-import { assets } from '../../assets/admin_assets/assets.js';
 import axios from 'axios';
 import { toast } from "react-toastify";
 
@@ -26,11 +25,12 @@ const Add = () => {
   });
 
   const checkAllFields = () => {
-    if (data.name && data.description && data.price && (data.category )) {
+    if(!data.category) return false;
+    // Ensure all fields are filled, and the category is not the placeholder value.
+    if (data.name && data.description && data.price &&  data.category !== "Enter a category" && image) {
       return true;
     } else {
       return false;
-      
     }
   };
 
@@ -53,7 +53,9 @@ const Add = () => {
     formData.append("image", image);
 
     try {
-      const res = await axios.post("http://localhost:4000/api/food/add", formData);
+      const res = await axios.post("http://localhost:4000/api/food/add", formData, { headers: {
+        'Content-Type': 'multipart/form-data',
+      }});
       if (res.data.success) {
         setData({
           name: "",
@@ -61,6 +63,7 @@ const Add = () => {
           price: "",
           category: ""
         });
+        setSelectedCategory(0)
         setImage(null);
         toast.success(res.data.message);
       } else {
@@ -125,7 +128,7 @@ const Add = () => {
           {image ? (
             <img src={URL.createObjectURL(image)} alt="Uploaded" className='h-32 w-auto object-cover' />
           ) : (
-            <img src={assets.upload_area} alt="Upload Area" className='h-32 w-auto' />
+            <img src="https://res.cloudinary.com/drts3ztiy/image/upload/v1730353172/upload_area_qwh90z.png" alt="Upload Area" className='h-32 w-auto' />
           )}
         </label>
         <Input
