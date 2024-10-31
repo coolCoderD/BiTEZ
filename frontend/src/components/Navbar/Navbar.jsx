@@ -12,28 +12,40 @@ import {
   Avatar,
 } from "@material-tailwind/react";
  
-import { assets } from "../../assets/assets";
+
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from '../../context/StoreContext';
-export  default function NavbarComp({setShowLogin}) {
+export  default function NavbarComp() {
+  
   const [openNav, setOpenNav] = React.useState(false);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const { getTotalPrice,setToken,token, } = useContext(StoreContext);
+  const { getTotalPrice,setToken,token,setShowLogin,user,setLikedItems,setState,setCartItems,cartItems} = useContext(StoreContext);
   const navigate=useNavigate();
 
   const logout=()=>{
     localStorage.removeItem("token");
     setToken("");
+    setLikedItems("");
+    setCartItems("");
     navigate("/");
 
   }
+
+  const signinHandler = () => {
+    setShowLogin(true);
+    setState("Sign Up")
+  };
  
+  const loginHandler = () => {
+    setShowLogin(true);
+    setState("Login")
+  }
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false),
     );
-  }, []);
+  }, [cartItems]);
 
   const closeMenu = () => setIsMenuOpen(false);
  
@@ -114,20 +126,23 @@ export  default function NavbarComp({setShowLogin}) {
   );
  
   return (
-    <Navbar shadow="false"  color="white" className="mx-auto mt-4 mb-6 sticky top-5 z-10 max-w-screen-xl px-4 py-2 lg:px-8 lg:py-4 shadow-none">
+    <Navbar shadow="false"  color="white" className="mx-auto -mt-4 mb-6 sticky top-5 z-10 max-w-screen-xl px-4 py-2 lg:px-8 lg:py-4 shadow-none">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
           href="/"
           className="mr-4 cursor-pointer py-1.5 font-medium"
         >
-          <img src={assets.logo} alt="" />
+          <img src="https://res.cloudinary.com/drts3ztiy/image/upload/v1730352696/kojritvivoor3jpmqmzs_e_background_removal_f_png_c5smz7.png"  className="w-36 h-12  object-cover " alt="" />
         </Typography>
         <div className="hidden lg:block">{navList}</div>
-        <div className="flex items-center gap-x-1">
+        <div className="flex items-center gap-x-4">
           <div className="relative">
             <Link to='/cart'>
-            <img src={assets.basket_icon} alt=""  className=""/>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-9">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+</svg>
+
             </Link>
             <div className={`${getTotalPrice() > 0 ? '' : 'hidden'} dot absolute min-w-[10px] min-h-[10px] bg-[#ff6347] rounded-full top-[-8px] right-[-8px]`}>
 
@@ -137,10 +152,10 @@ export  default function NavbarComp({setShowLogin}) {
           {
   !token ? (
     <>
-      <Button fullWidth variant="text" size="md" onClick={() => setShowLogin(true)}>
+      <Button fullWidth variant="text" size="md" onClick={() => loginHandler()}>
         <span>Log In</span>
       </Button>
-      <Button fullWidth variant="" size="md" onClick={() => setShowLogin(true)} className="bg-[tomato]">
+      <Button fullWidth variant="" size="md" onClick={() => signinHandler()} className="bg-[tomato]">
         <span>Sign in</span>
       </Button>
     </>
@@ -159,15 +174,15 @@ export  default function NavbarComp({setShowLogin}) {
         >
           <Avatar
             variant="circular"
-            size="sm"
-            alt="tania andrew"
-            className="border border-gray-900 p-0.5"
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+            size="md"
+            alt={user?.name}
+            className="border border-gray-900 p-0.5  object-fill"
+            src="https://res.cloudinary.com/drts3ztiy/image/upload/v1730324855/wnw534mdphozpipgcru0.jpg"
           />
           
         </Button>
       </MenuHandler>
-          <MenuList>
+          {/* <MenuList>
             <MenuItem className="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
   <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
@@ -183,7 +198,7 @@ export  default function NavbarComp({setShowLogin}) {
 
               <Link to="/orders">Orders</Link>
             </MenuItem>
-          </MenuList>
+          </MenuList> */}
         </Menu>
         
         {/* Logout Button */}
@@ -243,10 +258,10 @@ export  default function NavbarComp({setShowLogin}) {
           {
   !token ? (
     <>
-      <Button fullWidth variant="text" size="md" onClick={() => setShowLogin(true)}>
+      <Button fullWidth variant="text" size="md" onClick={()=>loginHandler()}>
         <span>Log In</span>
       </Button>
-      <Button fullWidth variant="" size="md" onClick={() => setShowLogin(true)} className="bg-[tomato]">
+      <Button fullWidth variant="" size="md" onClick={() => signinHandler()} className="bg-[tomato]">
         <span>Sign in</span>
       </Button>
     </>
@@ -266,14 +281,17 @@ export  default function NavbarComp({setShowLogin}) {
           <Avatar
             variant="circular"
             size="sm"
-            alt="tania andrew"
-            className="border border-gray-900 p-0.5"
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+            alt={user?.name}
+            className="border border-gray-900 p-0.5  object-fill"
+            src="https://res.cloudinary.com/drts3ztiy/image/upload/v1730324855/wnw534mdphozpipgcru0.jpg"
           />
-          Profile
+         Hi, 👋 {" "}
+         {
+          user?.name
+         }
         </Button>
       </MenuHandler>
-          <MenuList>
+          {/* <MenuList>
             <MenuItem className="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
   <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
@@ -289,7 +307,7 @@ export  default function NavbarComp({setShowLogin}) {
 
               <Link to="/orders">Orders</Link>
             </MenuItem>
-          </MenuList>
+          </MenuList> */}
         </Menu>
         
         {/* Logout Button */}

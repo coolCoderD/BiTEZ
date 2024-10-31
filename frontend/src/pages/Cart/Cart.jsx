@@ -1,7 +1,7 @@
-import React,{useContext,useState} from 'react'
+import React,{useContext,useEffect,useState} from 'react'
 import{ StoreContext} from '../../context/StoreContext'
 import CartEmpty from './CartEmpty'
-import { assets } from '../../assets/assets'
+
 import { useNavigate } from 'react-router-dom'
 
 const Cart = () => {
@@ -11,8 +11,6 @@ const Cart = () => {
     return Object.keys(obj).length === 0;
   }
 
-  
-
   const cartDetails={
       "Subtotal":getTotalPrice(),"Delivery Fee":200,"Total":getTotalPrice()+200
   }
@@ -20,7 +18,7 @@ const Cart = () => {
     <>{
       isEmpty(cartItems) ? <CartEmpty /> :
       
-      <div>
+      <div className='md:mx-40  mx-28'>
       <div  className='grid grid-cols-7  md:gap-4 p-4  '>
         <p className="font-bold" >Items</p>
         <p className="font-bold md:col-span-2">Title</p>
@@ -36,12 +34,12 @@ const Cart = () => {
             return (
               <>
               <div className='grid grid-cols-7 gap-4 p-4 '>
-                <img className='w-[70px] ' src={url+"/images/"+item.image} alt="" />
+                <img className='w-[70px] ' src={item.image} alt="" />
                 <p className='md:col-span-2'>{item.name}</p>
-                <p>{item.price*10}</p>
+                <p>{item.price}</p>
                 <p className='hidden md:block'>{cartItems[item._id]}</p>
                 <p>{item.price*cartItems[item._id]}</p>
-                <p className='cursor-pointer' onClick={()=>removeFromCart(item._id)}><img src={assets.cross_icon} alt="" /></p>
+                <p className='cursor-pointer' onClick={()=>removeFromCart(item._id)}><img src="https://res.cloudinary.com/drts3ztiy/image/upload/v1730384769/cross_icon_wqppxy.png" alt="" /></p>
               </div>
               <hr className='bg-gray-900 w-full h-full ' />
               </>
@@ -70,7 +68,7 @@ const Cart = () => {
         </button>
 
         </div>
-        <div className='p-4'>
+        {/* <div className='p-4'>
   <h2 className='text-lg font-semibold'>If you have any promo code. Enter it here</h2>
   <div className='grid grid-cols-5'>
     <input 
@@ -80,7 +78,7 @@ const Cart = () => {
     />
     <button className='bg-black text-white col-span-1 px-2 py-2 translate-y-1 translate-x-[-100px]  rounded-md'>Submit</button>
   </div>
-</div>
+</div> */}
 
       </div>
     </div> 
