@@ -9,8 +9,11 @@ export default withMT({
     './components/**/*.{html,js}',
 
   ],
+  darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+
+    },
   },
   plugins: [],
 });

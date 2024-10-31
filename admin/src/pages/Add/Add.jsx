@@ -11,8 +11,11 @@ import {
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
 import { toast } from "react-toastify";
+import { useTheme } from "../../context/ThemeContext";
 
 const Add = () => {
+  const {isDarkTheme}=useTheme();
+  console.log(isDarkTheme);
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [image, setImage] = useState(null);
@@ -111,8 +114,8 @@ const Add = () => {
   };
 
   return (
-    <div className='px-24 mb-20'>
-      <form className='mt-7 space-y-9 w-3/4' onSubmit={onSubmitHandler}>
+    <div className='px-24 h-screen '>
+      <form className='mt-7 space-y-9 w-3/4 dark:text-white' onSubmit={onSubmitHandler} >
         <input
           type="file"
           hidden
@@ -122,7 +125,7 @@ const Add = () => {
         />
         <h1 className='mb-4 text-semibold'>Upload Image</h1>
         <label
-          className="flex items-center justify-center w-3/4 h-48 border-2 border-dashed rounded-lg border-gray-300 hover:border-gray-400 hover:bg-gray-100"
+          className="flex items-center justify-center w-3/4 h-48 border-2 border-dashed rounded-lg border-gray-300 hover:border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
           htmlFor='file'
         >
           {image ? (
@@ -131,6 +134,7 @@ const Add = () => {
             <img src="https://res.cloudinary.com/drts3ztiy/image/upload/v1730353172/upload_area_qwh90z.png" alt="Upload Area" className='h-32 w-auto' />
           )}
         </label>
+        
         <Input
           variant="static"
           label="Product Name"
@@ -138,16 +142,20 @@ const Add = () => {
           name="name" // Set name attribute
           onChange={onChangeHandler}
           value={data.name}
+          color={!isDarkTheme? 'white':""}
           required
+
+          
          
         />
-        <Textarea
+        <Input
           variant="static"
           label="Product Description"
           placeholder="Type here"
           name="description" // Set name attribute
           onChange={onChangeHandler}
           value={data.description}
+          color={!isDarkTheme? 'white':""}
           required
         />
         <div className="grid grid-cols-2 gap-24">
@@ -195,10 +203,11 @@ const Add = () => {
             name="price" // Set name attribute
             onChange={onChangeHandler}
             value={data.price}
+            color={!isDarkTheme? 'white':""}
             required
           />
         </div>
-        <Button variant="filled" size="lg" type="submit"  loading={loading}>
+        <Button variant="filled" size="lg" type="submit"  loading={loading} color={!isDarkTheme? 'white':""}>
           {loading ? "Adding..." : "Add"}
         </Button>
       </form>

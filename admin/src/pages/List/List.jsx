@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import Loader from '../../components/Loader/Loader';
 
 const List = () => {
   const [list, setList] = useState([]);
+  const [loading,setLoading] = useState(false);
 
   useEffect(() => {
     fetchList(); 
@@ -17,8 +19,10 @@ const List = () => {
   };
 
   const handleClick = async (id) => {
+    setLoading(true);
     const res = await axios.post(`http://localhost:4000/api/food/remove`,{id:id});
     await fetchList();
+    setLoading(false);
     if(res.data.success){
       toast.success(res.data.message);
     }
@@ -29,8 +33,16 @@ const List = () => {
 
 
   return (
-    <div className='px-24'>
+    <div className='px-24 h-screen dark:text-white'>
       <div>
+
+        {
+          loading &&(
+            <div className='absolute top-1/2 left-1/2'>
+              <Loader />
+            </div>
+          )
+        }
         <h1 className='text-3xl mt-8'>All Food List</h1>
       </div>
       <div>
