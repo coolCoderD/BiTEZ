@@ -11,6 +11,6 @@
         "source": "/api/(.*)",
         "destination": "/server.js"
       }
-    ],
+    ]
   }
   
