@@ -23,7 +23,7 @@ const FoodItem = ({id,name,price,description,image}) => {
       {
         !cartItems[id] ? 
         <img className='absolute top-4 w-10 ml-2' src="https://res.cloudinary.com/drts3ztiy/image/upload/v1730384769/add_icon_white_srjt3e.png" onClick={() => addToCart(id)} /> :
-        <div className='absolute top-5 ml-2 flex items-center bg-white rounded-full px-1 py-1'>
+        <div className='absolute top-5 ml-2 flex items-center bg-white rounded-full px-1 py-1 text-black'>
           <img className='w-6' src="https://res.cloudinary.com/drts3ztiy/image/upload/v1730384772/remove_icon_red_nw2dos.png" onClick={() => removeFromCart(id)} />
           <p className='mx-2'>{cartItems[id]}</p>
           <img className='w-6' src="https://res.cloudinary.com/drts3ztiy/image/upload/v1730384768/add_icon_green_o58v0b.png" onClick={() => addToCart(id)} />   

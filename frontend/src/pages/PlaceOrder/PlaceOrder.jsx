@@ -2,9 +2,11 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
 import axios from 'axios';
+import Loader from '../../components/Loader/Loader';
 
 const PlaceOrder = () => {
   const { getTotalPrice, token, food_list, cartItems, url } = useContext(StoreContext);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -26,6 +28,7 @@ const PlaceOrder = () => {
   };
 
   const placeOrder = async (e) => {
+    setLoading(true);
     e.preventDefault();
     let orderItems = [];
     food_list.forEach((item) => {
@@ -44,6 +47,8 @@ const PlaceOrder = () => {
     };
 
     let res = await axios.post(`${url}/api/order/place`, orderData, { headers: { token } });
+
+    setLoading(false);
     if (res.data.success) {
       const { session_url } = res.data;
       window.location.replace(session_url);
@@ -60,6 +65,13 @@ const PlaceOrder = () => {
 
   return (
     <div className="flex md:flex-row flex-col justify-center mx-12  items-center gap-4  ">
+      {
+        loading && (
+          <div className='absolute top-1/2 left-1/2'>
+            <Loader/>
+          </div>
+        )
+      }
       <div>
         <div className="container w-full mx-auto p-2 bg-white dark:bg-gray-900 rounded-lg shadow-md ">
           <h1 className="text-2xl font-bold mb-4">Delivery Information</h1>
@@ -128,7 +140,7 @@ const PlaceOrder = () => {
               </div>
             </div>
 
-            <button type="submit" className="inline-flex text-white bg-[tomato] border-0 py-2 px-6 focus:outline-none hover:bg-[orangered] mt-4 rounded text-lg">
+            <button type="submit" className={`inline-flex text-white bg-[tomato] border-0 py-2 px-6 focus:outline-none hover:bg-[orangered] mt-4 rounded text-lg ${loading ? 'cursor-not-allowed' : ''}`}>
               Proceed to Payment
             </button>
           </form>
