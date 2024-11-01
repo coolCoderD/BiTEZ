@@ -9,45 +9,54 @@ const StoreContextProvider = (props) => {
     const [token, setToken] = useState(localStorage.getItem("token") || "");
     const [food_list, setFoodList] = useState([]);
     const [likedItems, setLikedItems] = useState([]);
-    const[data,setData]=useState({
-        name:"",
-        email:"",
-        password:""
-      })
-      const [state, setState] = useState("Login");
-      const [showLogin,setShowLogin]=useState(false)
-      const [user,setUser]=useState({});
+    const [data, setData] = useState({
+        name: "",
+        email: "",
+        password: ""
+    });
+    const [state, setState] = useState("Login");
+    const [showLogin, setShowLogin] = useState(false);
+    const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(false);  // Add loading state
 
     // Fetch food list from the API
     const getFoodList = async () => {
+        setLoading(true);  // Start loading
         try {
             const res = await axios.get(`${url}/api/food/list`);
             setFoodList(res.data);
         } catch (error) {
             console.error("Error fetching food list:", error);
+        } finally {
+            setLoading(false);  // Stop loading
         }
     };
 
-    const getUser=async(token)=>{
-        if(token){
-            try{
-                const res=await axios.get(`${url}/api/user/get`,{headers:{token}});
+    const getUser = async (token) => {
+        if (token) {
+            setLoading(true);  // Start loading
+            try {
+                const res = await axios.get(`${url}/api/user/get`, { headers: { token } });
                 setUser(res.data.userData);
-            }
-            catch(error){
+            } catch (error) {
                 console.error(error);
+            } finally {
+                setLoading(false);  // Stop loading
             }
         }
-    }
+    };
 
     // Fetch cart data from the API
     const getCart = async (token) => {
         if (token) {
+            setLoading(true);  // Start loading
             try {
                 const res = await axios.get(`${url}/api/cart/get`, { headers: { token } });
                 setCartItems(res.data.cartData);
             } catch (error) {
                 console.error("Error fetching cart:", error);
+            } finally {
+                setLoading(false);  // Stop loading
             }
         }
     };
@@ -56,20 +65,17 @@ const StoreContextProvider = (props) => {
         // Fetch food list on component mount
         getFoodList();
 
-        // Fetch cart if token is available
+        // Fetch cart and user data if token is available
         if (token) {
             getCart(token);
             likedFoodItems(token);
             getUser(token);
-            
         }
-    }, [token,state,showLogin]);
-
- 
+    }, [token, state, showLogin]);
 
     const addToCart = async (itemId) => {
-        // console.log(itemId)
         if (token) {
+            setLoading(true);  // Start loading
             try {
                 await axios.post(
                     `${url}/api/cart/add`,
@@ -82,13 +88,15 @@ const StoreContextProvider = (props) => {
                 }));
             } catch (error) {
                 console.error("Error adding to cart:", error);
+            } finally {
+                setLoading(false);  // Stop loading
             }
         }
     };
 
     const removeFromCart = async (itemId) => {
-
         if (token) {
+            setLoading(true);  // Start loading
             try {
                 await axios.post(
                     `${url}/api/cart/remove`,
@@ -105,13 +113,14 @@ const StoreContextProvider = (props) => {
                 });
             } catch (error) {
                 console.error("Error removing from cart:", error);
+            } finally {
+                setLoading(false);  // Stop loading
             }
         }
     };
 
     const getTotalPrice = () => {
         let total = 0;
-
         for (const item in cartItems) {
             if (cartItems[item] > 0) {
                 let itemInfo = food_list.find((product) => product._id === item);
@@ -125,30 +134,33 @@ const StoreContextProvider = (props) => {
 
     const getLikedItems = async (itemId) => {
         if (token) {
-            
+            setLoading(true);  // Start loading
             try {
-                const res = await axios.post(`${url}/api/profile/liked`, {itemId},{
+                const res = await axios.post(`${url}/api/profile/liked`, { itemId }, {
                     headers: { token },
                 });
                 setLikedItems(res.data.likedFoods);
-                console.log(likedItems);
-                console.log(res.data);
             } catch (error) {
                 console.error("Error fetching liked items:", error);
+            } finally {
+                setLoading(false);  // Stop loading
             }
         }
     };
 
     const likedFoodItems = async (token) => {
-        if(token){
+        if (token) {
+            setLoading(true);  // Start loading
             try {
                 const res = await axios.get(`${url}/api/profile/getLiked`, { headers: { token } });
                 setLikedItems(res.data.likedFoods);
             } catch (error) {
                 console.error("Error fetching liked items:", error);
+            } finally {
+                setLoading(false);  // Stop loading
             }
         }
-    }
+    };
 
     const isLiked = (itemId) => {
         return likedItems?.includes(itemId);
@@ -156,31 +168,30 @@ const StoreContextProvider = (props) => {
 
     const onLoginHandler = async (e) => {
         e.preventDefault();
-        let newUrl=url;
-        if(state==="Login"){
-          newUrl+='/api/user/login'
+        setLoading(true);  // Start loading
+        let newUrl = url;
+        if (state === "Login") {
+            newUrl += '/api/user/login';
+        } else {
+            newUrl += '/api/user/register';
         }
-        else{
-          newUrl+='/api/user/register'
-        }
-        
-        const res=await axios.post(newUrl,data);
 
-        if(res.data.success){
-          setToken(res.data.token);
-          localStorage.setItem("token", res.data.token);
-          setShowLogin(false);
-          setData("");
+        try {
+            const res = await axios.post(newUrl, data);
+            if (res.data.success) {
+                setToken(res.data.token);
+                localStorage.setItem("token", res.data.token);
+                setShowLogin(false);
+                setData("");
+            } else {
+                alert(res.data.message);
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+        } finally {
+            setLoading(false);  // Stop loading
         }
-        else{
-          alert(res.data.message);
-        }
-    
-    
-    
-      }
-
-
+    };
 
     const contextValue = {
         food_list,
@@ -204,8 +215,8 @@ const StoreContextProvider = (props) => {
         setState,
         state,
         user,
+        loading,  // Expose loading state to the context
     };
-
 
     return (
         <StoreContext.Provider value={contextValue}>

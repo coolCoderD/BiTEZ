@@ -11,11 +11,12 @@ import { StoreContext } from './context/StoreContext'
 import Verify from './pages/verify/Verify'
 import MyOrders from './pages/MyOrders/MyOrders'
 import Toggler from './components/Toggler/Toggler'
+import Loader from './components/Loader/Loader'
 
 
 
 function App() {
-  const {setShowLogin,showLogin}=useContext(StoreContext)
+  const {setShowLogin,showLogin,loading}=useContext(StoreContext)
   return (
     <>
     <div className='dark:bg-gray-900 dark:text-white '>
@@ -25,6 +26,13 @@ function App() {
       </div>
       {
         showLogin && <Login/>
+      }
+      {
+        loading && (
+          <div className='fixed z-50 top-0 left-0 right-0 bottom-0 flex items-center justify-center'>
+            <Loader/>
+          </div>
+        )
       }
       <NavbarComp />
       <Routes>
