@@ -13,14 +13,14 @@ const List = () => {
 
   const fetchList = async () => {
     
-      const res = await axios.get('http://localhost:4000/api/food/list');
+      const res = await axios.get('https://bitez.onrender.com/api/food/list');
       console.log(res.data);
       setList(res.data);
   };
 
   const handleClick = async (id) => {
     setLoading(true);
-    const res = await axios.post(`http://localhost:4000/api/food/remove`,{id:id});
+    const res = await axios.post(`https://bitez.onrender.com/api/food/remove`,{id:id});
     await fetchList();
     setLoading(false);
     if(res.data.success){

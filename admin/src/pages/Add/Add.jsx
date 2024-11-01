@@ -56,7 +56,7 @@ const Add = () => {
     formData.append("image", image);
 
     try {
-      const res = await axios.post("http://localhost:4000/api/food/add", formData, { headers: {
+      const res = await axios.post("https://bitez.onrender.com/api/food/add", formData, { headers: {
         'Content-Type': 'multipart/form-data',
       }});
       if (res.data.success) {
