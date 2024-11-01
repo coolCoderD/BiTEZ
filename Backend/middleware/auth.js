@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 
 export const authMiddleware = async (req, res, next) => {
     const token = req.headers.token||req.headers.authorization;
-    console.log(token);
     if (!token) {
         res.json({ success: false, message: 'Unauthorized' })
     } else {
