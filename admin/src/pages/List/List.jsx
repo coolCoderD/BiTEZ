@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Loader from '../../components/Loader/Loader';
 
+
 const List = () => {
   const [list, setList] = useState([]);
   const [loading,setLoading] = useState(false);
@@ -12,8 +13,9 @@ const List = () => {
   }, []);
 
   const fetchList = async () => {
-    
+    setLoading(true);
       const res = await axios.get('https://bitez.onrender.com/api/food/list');
+      setLoading(false);
       console.log(res.data);
       setList(res.data);
   };
