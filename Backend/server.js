@@ -9,7 +9,7 @@ import orderRouter from "./routes/orderRoutes.js";
 import profileRouter from "./routes/profileRoute.js";
 
 const app = express();
-const port = 4000;
+const port =process.env.PORT|| 4000;
 
 // Configure CORS
 const corsOptions = {
